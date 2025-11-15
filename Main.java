@@ -95,7 +95,17 @@ public class Main {
         System.out.println("3. Cash");
         System.out.print("Choose payment method: ");
         int paymentMethod = Integer.parseInt(sc.nextLine());
+        
+        if (paymentMethod == 1) {
+            System.out.print("Enter card number: ");
+            String cardNumber = sc.nextLine();
+            System.out.print("Enter expiry date (MM/YY): ");
+            String expiryDate = sc.nextLine();
+            System.out.print("Enter CVV: ");
+            String cvv = sc.nextLine();
 
+            System.out.println("Credit card payment details received");
+        }
         System.out.print("Enter delivery address: ");
         String address = sc.nextLine();
 
