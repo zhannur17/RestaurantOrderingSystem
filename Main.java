@@ -88,28 +88,37 @@ public class Main {
         total = discount.applyDiscount(total);
         System.out.printf("Total cost after discount: $%.2f%n", total);
 
-        // Facade (ordering + payment + observer)
+          // Facade (ordering + payment + observer)
         System.out.println("\nPAYMENT METHOD:");
         System.out.println("1. Credit Card");
         System.out.println("2. PayPal");
         System.out.println("3. Cash");
         System.out.print("Choose payment method: ");
         int paymentMethod = Integer.parseInt(sc.nextLine());
-        
+
+        String cardNumber = "", expiry = "", cvv = "";
+
+        // Только для кредитной карты запрашиваем данные
         if (paymentMethod == 1) {
             System.out.print("Enter card number: ");
-            String cardNumber = sc.nextLine();
+            cardNumber = sc.nextLine();
             System.out.print("Enter expiry date (MM/YY): ");
-            String expiryDate = sc.nextLine();
+            expiry = sc.nextLine();
             System.out.print("Enter CVV: ");
-            String cvv = sc.nextLine();
-
+            cvv = sc.nextLine();
             System.out.println("Credit card payment details received");
         }
+
         System.out.print("Enter delivery address: ");
         String address = sc.nextLine();
 
+       
+        PaymentProcessor paymentProcessor = new PaymentAdapter(new ExternalPaymentSystem());
+        paymentProcessor.processPayment(total, paymentMethod, cardNumber, expiry, cvv);
+
+     
         restaurant.placeOrder(orderList, total, paymentMethod, address);
+
         sc.close();
     }
 }
