@@ -1,4 +1,3 @@
-
 import java.util.List;
 
 public class RestaurantFacade {
@@ -14,9 +13,11 @@ public class RestaurantFacade {
         order.setStatus("ready");
         order.setStatus("with the courier");
 
-        // Adapter pattern for payment
+        // Adapter pattern for payment - ИСПРАВЛЕННЫЙ ВЫЗОВ
         PaymentProcessor payment = new PaymentAdapter(new ExternalPaymentSystem());
-        payment.processPayment(total, paymentMethod);
+
+        // Передаем все 5 параметров (пустые строки для данных карты)
+        payment.processPayment(total, paymentMethod, "", "", "");
 
         System.out.println("Thank you for choosing GSZH'S!");
     }
