@@ -30,7 +30,7 @@ public class Main {
                 System.out.print("Choose pizza size (1. Small, 2. Medium, 3. Large): ");
                 int size = Integer.parseInt(sc.nextLine());
                 ((Pizza) meal).setSize(size);
-                // Decorator pattern
+                
                 System.out.println("AVAILABLE EXTRAS (Decorator Pattern):");
                 System.out.println("1. Extra Cheese (+$1.50)");
                 System.out.println("2. Pepperoni (+$2.00)");
@@ -43,10 +43,7 @@ public class Main {
                     if (extra == 4) break;
                     switch (extra) {
                         case 1 -> { meal = new ExtraCheese(meal); extras.add("extra cheese"); }
-                        case 2 -> { meal = new MealDecorator(meal) {
-                            @Override public String getDescription() { return meal.getDescription() + ", pepperoni"; }
-                            @Override public double getCost() { return meal.getCost() + 2.00; }
-                        }; extras.add("pepperoni"); }
+                        case 2 -> { meal = new Pepperoni(meal); extras.add("pepperoni"); }
                         case 3 -> { meal = new Mushrooms(meal); extras.add("mushrooms"); }
                     }
                     System.out.println("Added " + extras.get(extras.size() - 1));
@@ -74,7 +71,6 @@ public class Main {
         orderList.forEach(m -> System.out.print(m.getDescription() + ", "));
         double total = orderList.stream().mapToDouble(Meal::getCost).sum();
 
-        // Discount Strategy Pattern
         System.out.println("\nChoose discount type:");
         System.out.println("1. Seasonal");
         System.out.println("2. Loyalty");
@@ -88,7 +84,6 @@ public class Main {
         total = discount.applyDiscount(total);
         System.out.printf("Total cost after discount: $%.2f%n", total);
 
-          // Facade (ordering + payment + observer)
         System.out.println("\nPAYMENT METHOD:");
         System.out.println("1. Credit Card");
         System.out.println("2. PayPal");
@@ -98,7 +93,6 @@ public class Main {
 
         String cardNumber = "", expiry = "", cvv = "";
 
-        // Только для кредитной карты запрашиваем данные
         if (paymentMethod == 1) {
             System.out.print("Enter card number: ");
             cardNumber = sc.nextLine();
@@ -117,7 +111,7 @@ public class Main {
         paymentProcessor.processPayment(total, paymentMethod, cardNumber, expiry, cvv);
 
      
-        restaurant.placeOrder(orderList, total, paymentMethod, address);
+        restaurant.placeOrder(orderList, total, paymentMethod, address, cardNumber, expiry, cvv);
 
         sc.close();
     }
